@@ -1,40 +1,73 @@
-
 import json
+from logic import Book, Checker
 
-class Book():
+def read_db():
+    with open('db.json', 'r', encoding='utf-8') as db:
+        try:
+            data =json.load(db)
+        except Exception:
+            data = dict()
 
-    def __init__(self, id, title, author, year):
-        self.id = id
-        self.title = title
-        self.author = author
-        self.year = year
-        self.status = "in_stock"
-
-    def _set_status(self, status): # getters and setters
-        self.status = status
-
-    def __repr__(self):
-        # return {self.id : {
-        #                     "title" : self.title,
-        #                     "author": self.author,
-        #                     "year": self.year,
-        #                     "status": self.status
-        #                     }
-        #         }
-        return f'Book ID:{self.id}\nTitle:{self.title}'
+    return data
 
 
-book_1 = Book(1, "test1", "Author1", 2000)
+def user_add_book():
+    book_title = str(input("Enter book Title: "))
+    book_author = str(input("Enter book Author: "))
+    book_year = str(input("Enter book Year: "))
+    return Book(book_title, book_author, book_year)
 
-print("id", book_1.id)
-print("year", book_1.year)
-print('status', book_1.status)
+def user_delete_book(db):
+    book_id = str(input("Enter book id for deleting entry: "))
+    try:
+        del db[book_id]
+        print("Book successfully deleted.")
+    except KeyError:
+        print("Book with id {book_id} didnt found.")
 
-book_1.set_status("in_use")
+def user_search_book():
+    
+    pass
 
-print('status', book_1.status)
+def user_change_status():
+    pass
 
-# save_book = json.dumps(book_1
+def user_show_all_books():
+    print(library_db) 
 
-print(book_1)
+if __name__ == "__main__":
+    library_db = read_db()
+    print("Welcome to CLI-library-manager")
+    
+    while True:
+        print("1 - Add book\n2 - Delete book by ID \n3 - Search book\n4 - Show all books")
+        user_choise = input()
+        
+        if user_choise == '1':
+            checker = Checker()
+            new_book = user_add_book()
+
+            result = checker.check_author(new_book), checker.check_title(new_book), checker.check_year(new_book)
+        
+            # print(type(result))
+            print(checker.checker_state)
+            if checker.checker_state == '000':
+                entry = new_book.add_to_db()
+                print(entry)
+                library_db.update(entry)
+                
+                print(library_db)
+
+        elif user_choise == '2':
+            user_delete_book(library_db)
+        elif user_choise == '3':
+            user_search_book()
+        elif user_choise == '4':
+            user_show_all_books()
+        else: 
+            with open('db.json', 'w', encoding='utf-8') as db:
+                json.dump(library_db, db, ensure_ascii=False, indent=4)
+
+            break
+
 
