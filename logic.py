@@ -45,7 +45,7 @@ class Book():
         #         }
         return f'Book ID:{self.id}\nTitle:{self.title}'
 
-    def add_to_db(self):
+    def add_to_db(self): # need rename
         """ Add new book entry  """
         data = {str(self.id) : {
                             "title" : self.title,
@@ -60,7 +60,7 @@ class Book():
 
 
 
-book_1 = Book("test2", "Author1", 2000)
+# book_1 = Book("test2", "Author1", 2000)
 
 # print("id", book_1.id)
 # print("year", book_1.year)
@@ -88,4 +88,4 @@ book_1 = Book("test2", "Author1", 2000)
 
 # print(book_1)
 
-print(book_1.__dict__)
+# print(book_1.__dict__)l
